@@ -20,11 +20,28 @@
                 apiKey: 'APPID=14d451ce4404a3a3d48f1e04d36b5e4a',
                 unitImperial: 'units=imperial',
                 unitMetric: 'units=metric',
-                queryImperialGetString: function () {
-                    return weather.queryUrl + weather.apiKey + "&" + weather.unitImperial + '&';
+                iconLocation: "http://openweathermap.org/img/w/",
+                showIcon: function (icon) {//icon is image file name
+                    return "<img src='" + this.iconLocation + icon + '.png' + "'>";
                 },
-                queryMetricGetString: function (data) {
-                    return weather.queryUrl + weather.apiKey + "&" + weather.unitMetric + '&' + data;
+                queryImperialGetString: function(data) {
+                    return this.queryUrl + this.apiKey + "&" + this.unitImperial + '&';
+                },
+                queryMetricGetString: function(data) {
+                    return this.queryUrl + this.apiKey + "&" + this.unitMetric + '&' + data;
+                },
+                jsonFileConstructor: function(data) {
+                    this.currentTemp = data.main.temp;
+                    this.loTemp = data.main.temp_min;
+                    this.hiTemp = data.main.temp_max;
+                    this.pressure = data.main.pressure;
+                    this.humidity = data.main.humidity;
+                    this.windSpeed = data.wind.speed;
+                    this.windDegree = data.wind.deg;
+                    this.weatherId = data.weather[0].id;
+                    this.weatherType = data.weather[0].main;
+                    this.weatherDescription = data.weather[0].description;
+                    this.weatherIcon = data.weather[0].icon;
                 }
             };
 
@@ -39,7 +56,10 @@
                 xhr.open('GET', weather.queryImperialGetString() + "id=5045020", true);
                 xhr.onload = function () {
                     if (xhr.status == 200) {
-                        console.log(JSON.parse(xhr.responseText));
+                        let obj = JSON.parse(xhr.responseText);
+                        let data = new weather.jsonFileConstructor(obj);
+                        main.innerHTML = data.weatherDescription;
+
                     }
                 }
                 xhr.send();
