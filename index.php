@@ -5,13 +5,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Ajax</title>
+        <title>Weather App</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
 
     <body>
         <div id='main'></div>
         <button id='btn'>Click Me</button>
+        <br><br>
+        <form>
+            City: <input type="text" id="city">
+        </form>
 
         <script>
             var weather = {
@@ -24,46 +28,60 @@
                 showIcon: function (icon) {//icon is image file name
                     return "<img src='" + this.iconLocation + icon + '.png' + "'>";
                 },
-                queryImperialGetString: function(data) {
-                    return this.queryUrl + this.apiKey + "&" + this.unitImperial + '&';
+                queryImperialGetString: function () {
+                    let city = weather.fixInput('city');
+                    let data = 'q=' + city;
+                    return this.queryUrl + this.apiKey + "&" + this.unitImperial + '&' + data;
                 },
-                queryMetricGetString: function(data) {
+                queryMetricGetString: function () {
+                    let city = weather.fixInput('city');
+                    let data = 'q=' + city;
                     return this.queryUrl + this.apiKey + "&" + this.unitMetric + '&' + data;
                 },
-                jsonFileConstructor: function(data) {
-                    this.currentTemp = data.main.temp;
-                    this.loTemp = data.main.temp_min;
-                    this.hiTemp = data.main.temp_max;
-                    this.pressure = data.main.pressure;
-                    this.humidity = data.main.humidity;
-                    this.windSpeed = data.wind.speed;
-                    this.windDegree = data.wind.deg;
-                    this.weatherId = data.weather[0].id;
-                    this.weatherType = data.weather[0].main;
-                    this.weatherDescription = data.weather[0].description;
-                    this.weatherIcon = data.weather[0].icon;
+                jsonFileConstructor: function (responseJSON) {
+                    this.currentTemp = responseJSON.main.temp;
+                    this.loTemp = responseJSON.main.temp_min;
+                    this.hiTemp = responseJSON.main.temp_max;
+                    this.pressure = responseJSON.main.pressure;
+                    this.humidity = responseJSON.main.humidity;
+                    this.windSpeed = responseJSON.wind.speed;
+                    this.windDegree = responseJSON.wind.deg;
+                    this.weatherId = responseJSON.weather[0].id;
+                    this.weatherType = responseJSON.weather[0].main;
+                    this.weatherDescription = responseJSON.weather[0].description;
+                    this.weatherIcon = responseJSON.weather[0].icon;
+                },
+                fixInput: function (id) {
+                    let input = document.getElementById(id).value.toLowerCase();
+                    let inputSplit = input.split(" ");
+                    let data = [];
+                    for (x in inputSplit) {
+                        var check = inputSplit[x][0].toUpperCase();
+                        var newWord = inputSplit[x].replace(inputSplit[x][0], check);
+                        data.push(newWord);
+                    };
+                    let fixedCity = data.join(" ");
+                    return fixedCity;
                 }
             };
 
             var btn = document.getElementById('btn');
-
+            var submit = document.getElementById('submit');
             btn.addEventListener('click', loadWeatherDataGet);
 
-
             function loadWeatherDataGet() {
-//                var data = document.getElementById('form').value;
                 xhr = new XMLHttpRequest();
-                xhr.open('GET', weather.queryImperialGetString() + "id=5045020", true);
+                xhr.open('GET', weather.queryImperialGetString(), true);
                 xhr.onload = function () {
                     if (xhr.status == 200) {
                         let obj = JSON.parse(xhr.responseText);
-                        let data = new weather.jsonFileConstructor(obj);
-                        main.innerHTML = data.weatherDescription;
-
-                    }
-                }
+                        let file = new weather.jsonFileConstructor(obj);
+                        main.innerHTML = file.hiTemp;
+                    };
+                };
                 xhr.send();
-            }
+            };
+
         </script>
 
     </body>
