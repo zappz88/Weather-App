@@ -6,12 +6,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Weather App</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
     </head>
 
     <body>
-        <div id='main'></div>
-        <button id='btn'>Click Me</button>
+        <div id='div_1'></div>
+        <div id='div_2'></div>
+        <div id='div_3'></div>
+        <div id='div_4'></div>
+        <div id='div_5'></div>
+        <div id='div_6'></div>
+        <div id='div_7'></div>
+        <div id='div_8'></div>
+        <div id='div_9'></div>
+
+        <button id='btn1'>Get Weather</button>
         <br><br>
         <form>
             City: <input type="text" id="city">
@@ -60,28 +69,43 @@
                         var newWord = inputSplit[x].replace(inputSplit[x][0], check);
                         data.push(newWord);
                     };
-                    let fixedCity = data.join(" ");
-                    return fixedCity;
+                    let fixedInput = data.join(" ");
+                    return fixedInput;
                 }
             };
+            
+            var city = {
+            file: ''
+            };
+           
 
-            var btn = document.getElementById('btn');
-            var submit = document.getElementById('submit');
-            btn.addEventListener('click', loadWeatherDataGet);
+            var btn1 = document.getElementById('btn1');
+            btn1.addEventListener('click', weatherData);
 
-            function loadWeatherDataGet() {
+            function weatherData() {
                 xhr = new XMLHttpRequest();
-                xhr.open('GET', weather.queryImperialGetString(), true);
+                xhr.open('POST', weather.queryImperialGetString(), true);
                 xhr.onload = function () {
-                    if (xhr.status == 200) {
+                    if (xhr.status === 200) {
                         let obj = JSON.parse(xhr.responseText);
                         let file = new weather.jsonFileConstructor(obj);
-                        main.innerHTML = file.hiTemp;
+                        city.file = file;
+                        document.getElementById('div_1').innerHTML = "Current Temp: " + city.file.currentTemp;
+                        document.getElementById('div_2').innerHTML = "High: " + city.file.hiTemp;
+                        document.getElementById('div_3').innerHTML = "Low: " +city.file.loTemp;
+                        document.getElementById('div_4').innerHTML = "Humidity: " + city.file.humidity;
+                        document.getElementById('div_5').innerHTML = "Weather Type: " + city.file.weatherType;
+                        document.getElementById('div_9').innerHTML = "Weather Description: " + city.file.weatherDescription;
+                        document.getElementById('div_6').innerHTML = weather.showIcon(city.file.weatherIcon);
+                        document.getElementById('div_7').innerHTML = "Windspeed: " + city.file.windSpeed;
+                        document.getElementById('div_8').innerHTML = "Wind Direction: " + city.file.windDegree;
+                        document.getElementById('div_9').innerHTML = "Pressure: " + city.file.pressure;
                     };
                 };
                 xhr.send();
             };
-
+            
+            
         </script>
 
     </body>
