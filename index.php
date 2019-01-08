@@ -63,7 +63,7 @@
             var errors = {
                 error400: "Bad Request.",
                 error401: "Authentication Failed.",
-                error403: "Forbidden",
+                error403: "Forbidden.",
                 error404: "File not found."
             };
 
@@ -82,17 +82,18 @@
                         var check = inputSplit[x][0].toUpperCase();
                         var newWord = inputSplit[x].replace(inputSplit[x][0], check);
                         data.push(newWord);
-                    };
+                    }
+                    ;
                     let fixedInput = data.join(" ");
                     return fixedInput;
-                };
+                }
 
             function weatherData() {
                 xhr = new XMLHttpRequest();
                 xhr.open('POST', weather.queryImperialGetString(), true);
 
                 xhr.onload = function () {
-                    if (this.status === 200) {
+                    if (this.status == 200) {
                         let obj = JSON.parse(xhr.responseText);
                         let file = new weather.jsonFileConstructor(obj);
                         city.file = file;
@@ -107,7 +108,43 @@
                         document.getElementById('div_8').innerHTML = "Wind Direction: " + city.file.windDegree;
                         document.getElementById('div_9').innerHTML = "Pressure: " + city.file.pressure;
                     };
-                    if (this.status === 404) {
+                    if (this.status == 400) {
+                        document.getElementById('div_1').innerHTML = errors.error400;
+                        document.getElementById('div_2').innerHTML = "";
+                        document.getElementById('div_3').innerHTML = "";
+                        document.getElementById('div_4').innerHTML = "";
+                        document.getElementById('div_5').innerHTML = "";
+                        document.getElementById('div_9').innerHTML = "";
+                        document.getElementById('div_6').innerHTML = "";
+                        document.getElementById('div_7').innerHTML = "";
+                        document.getElementById('div_8').innerHTML = "";
+                        document.getElementById('div_9').innerHTML = "";
+                    };
+                    if (this.status == 401) {
+                        document.getElementById('div_1').innerHTML = errors.error401;
+                        document.getElementById('div_2').innerHTML = "";
+                        document.getElementById('div_3').innerHTML = "";
+                        document.getElementById('div_4').innerHTML = "";
+                        document.getElementById('div_5').innerHTML = "";
+                        document.getElementById('div_9').innerHTML = "";
+                        document.getElementById('div_6').innerHTML = "";
+                        document.getElementById('div_7').innerHTML = "";
+                        document.getElementById('div_8').innerHTML = "";
+                        document.getElementById('div_9').innerHTML = "";
+                    };
+                    if (this.status == 403) {
+                        document.getElementById('div_1').innerHTML = errors.error403;
+                        document.getElementById('div_2').innerHTML = "";
+                        document.getElementById('div_3').innerHTML = "";
+                        document.getElementById('div_4').innerHTML = "";
+                        document.getElementById('div_5').innerHTML = "";
+                        document.getElementById('div_9').innerHTML = "";
+                        document.getElementById('div_6').innerHTML = "";
+                        document.getElementById('div_7').innerHTML = "";
+                        document.getElementById('div_8').innerHTML = "";
+                        document.getElementById('div_9').innerHTML = "";
+                    };
+                    if (this.status == 404) {
                         document.getElementById('div_1').innerHTML = errors.error404;
                         document.getElementById('div_2').innerHTML = "";
                         document.getElementById('div_3').innerHTML = "";
