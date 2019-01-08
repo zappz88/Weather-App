@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Weather App</title>
-<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+        <link rel="stylesheet" href="weatherappcss.css">
     </head>
 
     <body>
@@ -38,13 +38,11 @@
                     return "<img src='" + this.iconLocation + icon + '.png' + "'>";
                 },
                 queryImperialGetString: function () {
-                    let city = weather.fixInput('city');
-                    let data = 'q=' + city;
+                    let data = 'q=' + fixInput('city');
                     return this.queryUrl + this.apiKey + "&" + this.unitImperial + '&' + data;
                 },
                 queryMetricGetString: function () {
-                    let city = weather.fixInput('city');
-                    let data = 'q=' + city;
+                    let data = 'q=' + fixInput('city');
                     return this.queryUrl + this.apiKey + "&" + this.unitMetric + '&' + data;
                 },
                 jsonFileConstructor: function (responseJSON) {
@@ -59,8 +57,24 @@
                     this.weatherType = responseJSON.weather[0].main;
                     this.weatherDescription = responseJSON.weather[0].description;
                     this.weatherIcon = responseJSON.weather[0].icon;
-                },
-                fixInput: function (id) {
+                }
+            };
+
+            var errors = {
+                error400: "Bad Request.",
+                error401: "Authentication Failed.",
+                error403: "Forbidden",
+                error404: "File not found."
+            };
+
+            var city = {
+                file: ''
+            };
+            
+            var btn1 = document.getElementById('btn1');
+            btn1.addEventListener('click', weatherData);
+            
+            function fixInput (id) {
                     let input = document.getElementById(id).value.toLowerCase();
                     let inputSplit = input.split(" ");
                     let data = [];
@@ -71,28 +85,20 @@
                     };
                     let fixedInput = data.join(" ");
                     return fixedInput;
-                }
-            };
-            
-            var city = {
-            file: ''
-            };
-           
-
-            var btn1 = document.getElementById('btn1');
-            btn1.addEventListener('click', weatherData);
+                };
 
             function weatherData() {
                 xhr = new XMLHttpRequest();
                 xhr.open('POST', weather.queryImperialGetString(), true);
+
                 xhr.onload = function () {
-                    if (xhr.status === 200) {
+                    if (this.status === 200) {
                         let obj = JSON.parse(xhr.responseText);
                         let file = new weather.jsonFileConstructor(obj);
                         city.file = file;
                         document.getElementById('div_1').innerHTML = "Current Temp: " + city.file.currentTemp;
                         document.getElementById('div_2').innerHTML = "High: " + city.file.hiTemp;
-                        document.getElementById('div_3').innerHTML = "Low: " +city.file.loTemp;
+                        document.getElementById('div_3').innerHTML = "Low: " + city.file.loTemp;
                         document.getElementById('div_4').innerHTML = "Humidity: " + city.file.humidity;
                         document.getElementById('div_5').innerHTML = "Weather Type: " + city.file.weatherType;
                         document.getElementById('div_9').innerHTML = "Weather Description: " + city.file.weatherDescription;
@@ -101,11 +107,23 @@
                         document.getElementById('div_8').innerHTML = "Wind Direction: " + city.file.windDegree;
                         document.getElementById('div_9').innerHTML = "Pressure: " + city.file.pressure;
                     };
+                    if (this.status === 404) {
+                        document.getElementById('div_1').innerHTML = errors.error404;
+                        document.getElementById('div_2').innerHTML = "";
+                        document.getElementById('div_3').innerHTML = "";
+                        document.getElementById('div_4').innerHTML = "";
+                        document.getElementById('div_5').innerHTML = "";
+                        document.getElementById('div_9').innerHTML = "";
+                        document.getElementById('div_6').innerHTML = "";
+                        document.getElementById('div_7').innerHTML = "";
+                        document.getElementById('div_8').innerHTML = "";
+                        document.getElementById('div_9').innerHTML = "";
+                    };
                 };
                 xhr.send();
-            };
-            
-            
+            }
+
+
         </script>
 
     </body>
