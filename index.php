@@ -27,6 +27,7 @@
         </form>
 
         <script>
+            //Global object/variable declaration
             var weather = {
                 url: 'http://api.openweathermap.org/data/2.5/weather',
                 queryUrl: 'http://api.openweathermap.org/data/2.5/weather?',
@@ -70,23 +71,20 @@
             var city = {
                 file: ''
             };
-            
-            var btn1 = document.getElementById('btn1');
-            btn1.addEventListener('click', weatherData);
-            
-            function fixInput (id) {
-                    let input = document.getElementById(id).value.toLowerCase();
-                    let inputSplit = input.split(" ");
-                    let data = [];
-                    for (x in inputSplit) {
-                        var check = inputSplit[x][0].toUpperCase();
-                        var newWord = inputSplit[x].replace(inputSplit[x][0], check);
-                        data.push(newWord);
-                    }
-                    ;
-                    let fixedInput = data.join(" ");
-                    return fixedInput;
-                }
+
+            //Global function declaration
+            function fixInput(id) {
+                let input = document.getElementById(id).value.toLowerCase();
+                let inputSplit = input.split(" ");
+                let data = [];
+                for (x in inputSplit) {
+                    var check = inputSplit[x][0].toUpperCase();
+                    var newWord = inputSplit[x].replace(inputSplit[x][0], check);
+                    data.push(newWord);
+                };
+                let fixedInput = data.join(" ");
+                return fixedInput;
+            };
 
             function weatherData() {
                 xhr = new XMLHttpRequest();
@@ -158,7 +156,11 @@
                     };
                 };
                 xhr.send();
-            }
+            };
+
+            //Button renaming and activity assignment
+            var btn1 = document.getElementById('btn1');
+            btn1.addEventListener('click', weatherData);
 
 
         </script>
