@@ -1,0 +1,58 @@
+/*#grid-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    background-color: blue;    
+}*/
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    background-color: #cccccc;
+    font-family: Arial;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+div{
+    margin: 0 auto;
+}
+
+img{
+    height: 70px;
+    width: 70px;
+}
+
+#header{
+    color: white;
+    text-align: center;
+    background-color: black;
+    width: 100%;
+    padding: 24px 0px;
+    filter: opacity(50%);
+}
+
+#header-banner{
+    background-image: url("clouds.png");
+    background-size: cover;
+    width: 100%;
+}
+
+#div_search{
+    display: flex;
+    flex-direction: row;
+    margin-top: 24px;
+}
+
+#main-content{
+    margin-top: 48px;
+    width: 50%;
+    height: 500px;
+    border: solid black 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
