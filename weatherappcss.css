@@ -1,58 +1,327 @@
-/*#grid-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    background-color: blue;    
-}*/
-
 body{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    background-color: #cccccc;
+    background-image: url('https://images.pexels.com/photos/1250048/pexels-photo-1250048.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+    background-size: cover;
     font-family: Arial;
     font-size: 24px;
     font-weight: bold;
-}
-
-div{
-    margin: 0 auto;
-}
-
-img{
-    height: 70px;
-    width: 70px;
-}
-
-#header{
     color: white;
-    text-align: center;
-    background-color: black;
-    width: 100%;
-    padding: 24px 0px;
-    filter: opacity(50%);
 }
 
-#header-banner{
-    background-image: url("clouds.png");
-    background-size: cover;
-    width: 100%;
+#main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #div_search{
     display: flex;
     flex-direction: row;
-    margin-top: 24px;
 }
 
-#main-content{
-    margin-top: 48px;
+#city{
+    width: 200px;
+    opacity: 0.5;
+}
+
+#btn1{
+    color: white;
+    background-color: black;
+    margin: 9px 15px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    opacity: 0.5;
+    margin: 50px auto;
+    width: 1250px;
+    height: 750px;
+    border: solid 2px white;
+}
+
+.current{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    margin: 50px auto;
+    width: 1250px;
+    height: 400px;
+}
+
+.opacity{
+    opacity: 1;
+}
+
+.location,
+.temperature{
+    height: 12vh;
     width: 50%;
-    height: 500px;
-    border: solid black 2px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: black;
+    opacity: 1;
+}
+
+.temperature{
+    flex-direction: row;
+}
+
+.degree-section{
+    display: flex;
+    align-items: center;
+}
+
+.degree-section span{
+    margin: 10px;
+    font-size: 30px;
+}
+
+.degree-section h2{
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.week{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.day{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    border: solid 2px white;
+    height: 200px;
+    width: 150px;
+    font-size: 12px;
+    padding: 5px;
+    margin: 5px;
+}
+
+
+
+/*Classes*/
+.pointer{
+    cursor: pointer;
+}
+
+
+
+/*Animation Classes*/
+.spinOut{
+    animation: spinOut 1s ease 0s normal forwards running;
+    pointer-events: none;
+}
+
+.slideDown{
+    animation: slideDown 1s ease 0s normal forwards running;
+}
+
+.slideRight{
+    animation: slideRight 1s ease 0s normal forwards running;
+}
+
+.slideLeft{
+    animation: slideLeft 1s ease 0s 1 normal forwards running;
+}
+
+.slideUp{
+    animation: slideUp 1s ease 0s 1 normal forwards running;
+}
+
+.bounce{
+    animation: bounce 0.45s ease 0s infinite alternate none running;
+}
+
+.easeIn{
+    animation: easeIn 0.25s linear 0s 1 normal forwards running;
+}
+
+.easeInLeft{
+    animation: easeInLeft 0.25s linear 0s 1 normal forwards running;
+}
+
+.easeInRight{
+    animation: easeInRight 0.25s linear 0s 1 normal forwards running;
+}
+
+.comingThrough{
+    animation: comingThrough 1s ease 1 normal forwards running;
+    pointer-events: none;
+}
+
+.openEyes{
+    animation: openEyes 3s ease 0s 1 normal forwards running;
+}
+
+.show{
+    animation: show 1s ease 0s 1 normal forwards running;
+}
+
+
+/*Keyframe Animations*/
+
+@keyframes slideDown{
+    0%{
+        -moz-transform: translateY(-1000px);
+        -ms-transform: translateY(-1000px);
+        -webkit-transform: translateY(-1000px);
+    }
+    100%{
+
+    }
+}
+
+@keyframes slideRight{
+    0%{
+        -moz-transform: translateX(-1000px);
+        -ms-transform: translateX(-1000px);
+        -webkit-transform: translateX(-1000px);
+    }
+    100%{
+
+    }
+}
+
+@keyframes slideLeft{
+    0%{
+        -moz-transform: translateX(1000px);
+        -ms-transform: translateX(1000px);
+        -webkit-transform: translateX(1000px);
+    }
+    100%{
+
+    }
+}
+
+@keyframes slideUp{
+    0%{
+        -moz-transform: translateY(1000px);
+        -ms-transform: translateY(1000px);
+        -webkit-transform: translateY(1000px);
+    }
+    100%{
+
+    }
+}
+
+@keyframes easeInRight{
+    0%{
+    
+    }
+    100%{
+        -moz-transform: scale(1.1,1.1);
+        -ms-transform: scale(1.1,1.1);
+        -webkit-transform: scale(1.1,1.1);
+        box-shadow: -10px 10px 10px 10px grey;
+    }
+}
+
+@keyframes easeInLeft{
+    0%{
+    
+    }
+    100%{
+        -moz-transform: scale(1.1,1.1);
+        -ms-transform: scale(1.1,1.1);
+        -webkit-transform: scale(1.1,1.1);
+        box-shadow: 10px 10px 10px 10px grey;
+    }
+}
+
+@keyframes easeIn{
+    0%{
+    
+    }
+    100%{
+        -moz-transform: scale(1.1,1.1);
+        -ms-transform: scale(1.1,1.1);
+        -webkit-transform: scale(1.1,1.1);
+        box-shadow: 0px 0px 10px 5px grey;
+    }
+}
+
+@keyframes bounce{
+    0%{
+
+    }
+    100%{
+        -moz-transform: translateY(-5px);
+        -ms-transform: translateY(-5px);
+        -webkit-transform: translateY(-5px);
+    }
+}
+
+@keyframes spinOut{
+    0%{
+
+    }
+    50%{
+        transform: rotateY(360deg);
+        -moz-transform: rotateY(360deg);
+        -webkit-transform: rotateY(360deg);
+    }
+    75%{
+        -moz-transform: translateY(35px);
+        -ms-transform: translateY(35px);
+        -webkit-transform: translateY(35px);
+    }
+    100%{
+        -moz-transform: translateY(-1000px);
+        -ms-transform: translateY(-1000px);
+        -webkit-transform: translateY(-1000px);
+    }
+}
+
+@keyframes comingThrough{
+    0%{
+    }
+    50%{
+        font-size: 200px;
+        -moz-transform: translateY(200px);
+        -ms-transform: translateY(200px);
+        -webkit-transform: translateY(200px);
+    }
+    100%{
+        -moz-transform: translateY(-1000px);
+        -ms-transform: translateY(-1000px);
+        -webkit-transform: translateY(-1000px);
+        font-size: 200px;
+    }
+}
+
+@keyframes openEyes{
+    0%{
+        background-color: black;
+    }
+    100%{
+        background-color: white;
+    }
+}
+
+@keyframes show{
+    0%{
+        transform: translateY(20px);
+        visibility: hidden;
+    }
+    50%{
+        transform: translateY(-10px);
+    }
+    100%{
+        transform: translateY(20px);
+        visibility: visible;
+    }
+}
+
+@media screen and (max-width: 568px){
+    .week{
+        overflow-x: scroll;
+    }
 }
