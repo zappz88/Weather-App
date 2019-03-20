@@ -7,38 +7,136 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Weather App</title>
         <link rel="stylesheet" href="weatherappcss.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="skycons.js"></script>
     </head>
 
     <body>
-        <!--        <div id="grid-container">-->
-        <div id="header-banner">
-            <div id="header">WeatherApp</div>
-        </div>
+        <div id="main">
+<!--            <div id='div_search'> 
+                <form>
+                    City: <input type="text" id="city">
+                </form>
+                <button id='btn1'>Get Weather</button>
+            </div>-->
 
-        <div id='div_search'> 
-            <form>
-                City: <input type="text" id="city">
-            </form>
-            <button id='btn1'>Get Weather</button>
-        </div>
+            <div class="content">
 
-        <div id="main-content">
-            <div id='div_1'></div>
-            <div id='div_2'></div>
-            <div id='div_3'></div>
-            <div id='div_4'></div>
-            <div id='div_5'></div>
-            <div id='div_6'></div>
-            <div id='div_7'></div>
-            <div id='div_8'></div>
-            <div id='div_9'></div>
+                <div class="current">
+                    <div class="location">
+                        <h1 id="location">Location</h1>
+                        <canvas id="icon1" width="128" height="128"></canvas>
+                    </div>
+
+                    <div class="temperature">
+                        <div class="degree-section">
+                            <h2 id="temperature-degree" class="temperature-degree"></h2>
+                            <span>F</span>
+                        </div>
+                        <div id="temperature-description" class="temperature-description"></div>
+                    </div>
+
+
+                </div>
+
+                <div id="week" class="week">
+
+                    <div id="day1" class="day">
+                        <canvas id="icon2" width="60" height="60"></canvas>
+                        <h2 id="temp1"></h2>
+                        <p id="summary1"></p>
+
+                    </div>
+                    <div id="day2" class="day">
+                        <canvas id="icon3" width="60" height="60"></canvas>
+                        <h2 id="temp2"></h2>
+                        <p id="summary2"></p>
+
+                    </div>
+                    <div id="day3" class="day">
+                        <canvas id="icon4" width="60" height="60"></canvas>
+                        <h2 id="temp3"></h2>
+                        <p id="summary3"></p>
+
+                    </div>
+                    <div id="day4" class="day">
+                        <canvas id="icon5" width="60" height="60"></canvas>
+                        <h2 id="temp4"></h2>
+                        <p id="summary4"></p>
+
+                    </div>
+                    <div id="day5" class="day">
+                        <canvas id="icon6" width="60" height="60"></canvas>
+                        <h2 id="temp5"></h2>
+                        <p id="summary5"></p>
+                    </div>
+
+
+                </div>
+
+
+            </div>
         </div>
 
 
         <!--        </div>-->
         <script>
+            /*Initializer Function*/
+            window.addEventListener('load', () => {
+                let long;
+                let lat;
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        long = position.coords.longitude;
+                        lat = position.coords.latitude;
+
+                        const proxy = 'https://cors-anywhere.herokuapp.com/';
+                        const api = `${proxy}https://api.darksky.net/forecast/d571a1e2483b31605b94edaae84c647e/${lat},${long}`;
+
+                        let xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                let obj = JSON.parse(this.responseText);
+                                console.log(obj);
+                                document.getElementById('temperature-degree').innerHTML = obj.currently.apparentTemperature;
+                                document.getElementById('location').innerHTML = obj.timezone;
+                                document.getElementById('temperature-description').innerHTML = obj.currently.summary;
+                                setIcons(obj.currently.icon, document.getElementById('icon1'));
+                                for (let i = 0; i < 6; i++) {
+                                    setIcons(obj.daily.data[i].icon, document.getElementById(`icon${i + 1}`));
+                                    document.getElementById(`temp${i + 1}`).innerHTML = obj.daily.data[i].temperatureMax;
+                                    document.getElementById(`summary${i + 1}`).innerHTML = obj.daily.data[i].summary;
+                                }
+                            }
+                        };
+                        xhr.open("GET", api, true);
+                        xhr.send();
+                    });
+                }
+                function setIcons(icon, iconId) {
+                    const skycons = new Skycons({color: 'white'});
+                    const currentIcon = icon.replace(/-/g, '_').toUpperCase();
+                    skycons.play();
+                    return skycons.set(iconId, Skycons[currentIcon]);
+                }
+                ;
+
+            });
+
+            for (let i = 1; i < 6; i++) {
+                $(`#day${i}`).bind('mouseenter mouseleave', function () {
+                    $(this).toggleClass('easeIn');
+                    $(this).toggleClass('pointer');
+                });
+            }
+            ;
+
+
+
+
             //Global object/variable declaration
+            const darkSkyKey = 'd571a1e2483b31605b94edaae84c647e';
+            const darkSkyApi = 'https://api.darksky.net/forecast/';
             var weather = {
                 url: 'http://api.openweathermap.org/data/2.5/weather',
                 queryUrl: 'http://api.openweathermap.org/data/2.5/weather?',
@@ -117,13 +215,13 @@
                         let obj = JSON.parse(xhr.responseText);
                         let file = new weather.jsonFileConstructor(obj);
                         city.file = file;
-                        document.getElementById('div_1').innerHTML = "Current Temp: " + city.file.currentTemp;
+                        document.getElementById('div_1').innerHTML = weather.showIcon(city.file.weatherIcon);
                         document.getElementById('div_2').innerHTML = "High: " + city.file.hiTemp;
                         document.getElementById('div_3').innerHTML = "Low: " + city.file.loTemp;
                         document.getElementById('div_4').innerHTML = "Humidity: " + city.file.humidity;
                         document.getElementById('div_5').innerHTML = "Weather Type: " + city.file.weatherType;
                         document.getElementById('div_9').innerHTML = "Weather Description: " + city.file.weatherDescription;
-                        document.getElementById('div_6').innerHTML = weather.showIcon(city.file.weatherIcon);
+                        document.getElementById('div_6').innerHTML = "Current Temp: " + city.file.currentTemp;
                         document.getElementById('div_7').innerHTML = "Windspeed: " + city.file.windSpeed;
                         document.getElementById('div_8').innerHTML = "Wind Direction: " + city.file.windDegree;
                         document.getElementById('div_9').innerHTML = "Pressure: " + city.file.pressure;
@@ -235,6 +333,10 @@
                         break;
                 }
             }
+
+            $(document).ready(function () {
+                $('#main').addClass('show');
+            });
 
 
         </script>
