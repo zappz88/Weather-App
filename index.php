@@ -15,17 +15,23 @@
         <div class="content">
 
             <div class="current">
-                <div class="location">
-                    <h1 id="location">Location</h1>
+                
+                <div id="location" class="location">
+                    
+                    <h1 id="currentLocation">Location</h1>
                     <canvas id="currentDayIcon"></canvas>
+                    
                 </div>
 
                 <div class="temperature">
-                    <div class="degree-section">
-                        <h2 id="temperature-degree" class="temperature-degree"></h2>
-                        <span>F</span>
-                    </div>
-                    <div id="temperature-description" class="temperature-description"></div>
+                    
+                    <h3 id="temperature-degree" class="degree-section">
+                        
+                    </h3>
+                    
+                    <h3 id="temperature-description" class="temperature-description">
+                        
+                    </h3>
                 </div>
 
 
@@ -42,8 +48,8 @@
 
         </div>
         <script>
-            let info = document.getElementById('info');
-            let week = document.getElementById('week');
+            const info = document.getElementById('info');
+            const week = document.getElementById('week');
             
             $(document).ready(function () {
                 $('body').addClass('show');
@@ -67,20 +73,24 @@
                                 let obj = JSON.parse(this.responseText);
                                 console.log(obj);
                                 $('#temperature-degree').html(Math.round(obj.currently.apparentTemperature));
-                                $('#location').html(obj.timezone);
+                                $('#currentLocation').html(obj.timezone);
                                 $('#temperature-description').html(obj.currently.summary);
                                 setIcons(obj.currently.icon, document.getElementById('currentDayIcon'));
+                                
                                 for (let i = 0; i < obj.hourly.data.length; i++) {
-                                    info.innerHTML += `<div id='hour${i + 1}' class='hourly'><canvas id='hourIcon${i + 1}'></canvas><h3 id='hourTemp${i + 1}'></h3><p id='hourSummary${i + 1}'></p></div>`;
+                                    info.innerHTML += `<div id='hour${i + 1}' class='hourly'><canvas id='hourIcon${i + 1}'></canvas><h3 id='hourTemp${i + 1}'></h3><p id='hourSummary${i + 1}'></p><p id='time${i + 1}'></p></div>`;
                                     setIcons(obj.hourly.data[i].icon, document.getElementById(`hourIcon${i + 1}`));
                                     $(`#hourTemp${i + 1}`).html(Math.round(obj.hourly.data[i].temperature));
                                     $(`#hourSummary${i + 1}`).html(obj.hourly.data[i].summary);
+                                    $(`#time${i + 1}`).html(getHour(obj.hourly.data[i].time));
                                 }
+                                
                                 for (let i = 0; i < obj.daily.data.length; i++) {
-                                    week.innerHTML += `<div id='day${i + 1}' class='daily'><canvas id='dayIcon${i + 1}'></canvas><h2 id='dayTemp${i + 1}'></h2><p id='daySummary${i + 1}'></p></div>`;
+                                    week.innerHTML += `<div id='day${i + 1}' class='daily'><p id='weekDay${i + 1}'></p><canvas id='dayIcon${i + 1}'></canvas><h2 id='dayTemp${i + 1}'></h2><p id='daySummary${i + 1}'></p></div>`;
                                     setIcons(obj.daily.data[i].icon, document.getElementById(`dayIcon${i + 1}`));
                                     $(`#dayTemp${i + 1}`).html(Math.round(obj.daily.data[i].temperatureMax));
                                     $(`#daySummary${i + 1}`).html(obj.daily.data[i].summary);
+                                    $(`#weekDay${i + 1}`).html(getDay(obj.daily.data[i].time));
                                 }
 
                                 for (let i = 0; i < obj.daily.data.length; i++) {
@@ -94,7 +104,7 @@
                                             $('#tempMax').html("Hi " + Math.round(obj.daily.data[i].temperatureMax));
                                             $('#tempMin').html("Lo " + Math.round(obj.daily.data[i].temperatureMin));
                                             $('#precip').html("Precipitation " + obj.daily.data[i].precipProbability);
-                                            $('#wind').html("WindSpeed " + obj.daily.data[i].windSpeed);
+                                            $('#wind').html("WindSpeed " + obj.daily.data[i].precipProbability);
                                         }
                                         else{
                                             info.innerHTML = data;
@@ -103,11 +113,46 @@
                                 };
                                 
                                 function setIcons(icon, iconId) {
-                                    const skycons = new Skycons({color: 'white'});
-                                    const currentIcon = icon.replace(/-/g, '_').toUpperCase();
+                                    let skycons = new Skycons({color: 'white'});
+                                    let currentIcon = icon.replace(/-/g, '_').toUpperCase();
                                     skycons.play();
                                     return skycons.set(iconId, Skycons[currentIcon]);
                                 };
+                                
+                                function getHour(unixTime){
+                                    let date = new Date(unixTime * 1000);
+                                    if(date.getHours() > 12){
+                                        return (date.getHours() - 12) + 'pm';
+                                    }
+                                    return date.getHours() + 'am';
+                                }
+                                
+                                function getDay(unixTime){
+                                    let date = new Date(unixTime * 1000);
+                                    switch(date.getDay()){
+                                        case 0:
+                                            return "Sunday";
+                                            break;
+                                        case 1:
+                                            return "Monday";
+                                            break;
+                                        case 2:
+                                            return "Tuesday";
+                                            break;
+                                        case 3:
+                                            return "Wednesday";
+                                            break;
+                                        case 4:
+                                            return "Thursday";
+                                            break;
+                                        case 5:
+                                            return "Friday";
+                                            break;
+                                        case 6:
+                                            return "Saturday";
+                                            break;
+                                    }
+                                }
                             }
                         };
                         xhr.open("GET", api, true);
