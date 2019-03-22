@@ -1,33 +1,15 @@
 body{
-    background-image: url('https://images.pexels.com/photos/1250048/pexels-photo-1250048.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
-    background-size: cover;
-    font-family: Arial;
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-}
-
-#main{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-#div_search{
-    display: flex;
-    flex-direction: row;
-}
-
-#city{
-    width: 200px;
-    opacity: 0.5;
-}
-
-#btn1{
+    background-image: url('https://images.pexels.com/photos/1250048/pexels-photo-1250048.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: Arial;
+    font-size: 24px;
+    font-weight: bold;
     color: white;
-    background-color: black;
-    margin: 9px 15px;
 }
 
 .content{
@@ -36,10 +18,8 @@ body{
     align-items: center;
     background-color: black;
     opacity: 0.5;
-    margin: 50px auto;
-    width: 1250px;
-    height: 750px;
-    border: solid 2px white;
+    width: 100vw;
+    height: 100vh;
 }
 
 .current{
@@ -47,24 +27,24 @@ body{
     flex-direction: column;
     align-items: center;
     background-color: black;
-    margin: 50px auto;
-    width: 1250px;
-    height: 400px;
+    margin: 2% auto;
+    width: 80vw;
+    height: 150px;
 }
 
-.opacity{
-    opacity: 1;
+.current canvas{
+    width: 200px;
+    height: 120px;
 }
 
 .location,
 .temperature{
-    height: 12vh;
-    width: 50%;
+    height: 16vh;
+    width: 50vw;
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    background-color: black;
-    opacity: 1;
 }
 
 .temperature{
@@ -86,13 +66,55 @@ body{
     cursor: pointer;
 }
 
-.week{
+.info{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    width: 70vw;
+    height: 300px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.showData{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: space-around;
 }
 
-.day{
+.showData h3{
+    margin: 10px;
+}
+
+.hourly{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid 2px white;
+    height: 150px;
+    min-width: 150px;
+    max-width: 150px;
+    font-size: 12px;
+    margin: auto 5px;
+    padding: 5px;
+}
+
+.hourly canvas{
+    width: 110px;
+    height: 60px;
+}
+
+.week{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 80vw;
+    height: 300px;
+}
+
+.daily{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -105,9 +127,11 @@ body{
     margin: 5px;
 }
 
+.daily canvas{
+    width: 100px;
+    height: 60px;
+}
 
-
-/*Classes*/
 .pointer{
     cursor: pointer;
 }
@@ -141,7 +165,7 @@ body{
 }
 
 .easeIn{
-    animation: easeIn 0.25s linear 0s 1 normal forwards running;
+    animation: easeIn 0.15s linear 0s 1 normal forwards running;
 }
 
 .easeInLeft{
@@ -321,7 +345,27 @@ body{
 }
 
 @media screen and (max-width: 568px){
+    .current{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80vw;
+        height: 16vh;
+        font-size: 16px;
+        margin-top: 10%;
+    }
+    .location{
+        flex-direction: column;
+    }
+ 
     .week{
         overflow-x: scroll;
+        max-width: 80vw;
+        justify-content: flex-start;
+    }
+    
+    .daily{
+        margin-bottom: 2vh;
     }
 }
