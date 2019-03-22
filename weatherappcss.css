@@ -1,8 +1,4 @@
 body{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background-image: url('https://images.pexels.com/photos/1250048/pexels-photo-1250048.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
     background-size: cover;
     background-repeat: no-repeat;
@@ -15,10 +11,11 @@ body{
 .content{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     background-color: black;
     opacity: 0.5;
-    width: 100vw;
+    width: 100w;
     height: 100vh;
 }
 
@@ -27,12 +24,12 @@ body{
     flex-direction: column;
     align-items: center;
     background-color: black;
-    margin: 2% auto;
+    margin: auto;
     width: 80vw;
     height: 150px;
 }
 
-.current canvas{
+.location canvas{
     width: 200px;
     height: 120px;
 }
@@ -40,30 +37,10 @@ body{
 .location,
 .temperature{
     height: 16vh;
-    width: 50vw;
+    width: 60vw;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
-}
-
-.temperature{
-    flex-direction: row;
-}
-
-.degree-section{
-    display: flex;
-    align-items: center;
-}
-
-.degree-section span{
-    margin: 10px;
-    font-size: 30px;
-}
-
-.degree-section h2{
-    font-size: 40px;
-    cursor: pointer;
 }
 
 .info{
@@ -92,7 +69,7 @@ body{
     flex-direction: column;
     align-items: center;
     border: solid 2px white;
-    height: 150px;
+    height: 200px;
     min-width: 150px;
     max-width: 150px;
     font-size: 12px;
@@ -101,8 +78,9 @@ body{
 }
 
 .hourly canvas{
-    width: 110px;
+    width: 120px;
     height: 60px;
+    margin: 5px;
 }
 
 .week{
@@ -115,13 +93,13 @@ body{
 }
 
 .daily{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 20% 30% 25% 25%;
     border: solid 2px white;
     height: 200px;
-    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
     font-size: 12px;
     padding: 5px;
     margin: 5px;
@@ -187,6 +165,10 @@ body{
 
 .show{
     animation: show 1s ease 0s 1 normal forwards running;
+}
+
+.fadeIn{
+    animation: fadeIn 2s ease 0s 1 normal formal running;
 }
 
 
@@ -344,28 +326,56 @@ body{
     }
 }
 
+@keyframes fadeIn{
+    0%{
+        visibility: hidden;
+    }
+    100%{
+        visibility: visible;
+    }
+}
+
 @media screen and (max-width: 568px){
     .current{
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
         width: 80vw;
-        height: 16vh;
-        font-size: 16px;
-        margin-top: 10%;
+        height: 200px;
+        font-size: 12px;
     }
+
     .location{
         flex-direction: column;
+        align-items: center;
+        margin: 10px auto 5px;
     }
  
     .week{
         overflow-x: scroll;
         max-width: 80vw;
         justify-content: flex-start;
+        margin: 0px auto 0px;
+    }
+    
+    .showData{
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 60% 10% 10% 10% 10%;
+        font-size: 14px;
+        overflow: hidden;
+        margin: 5px auto 0px;
+    }
+
+    .info{
+        height: 250px;
+    }
+
+    .showData canvas{
+        width: 120px;
+        height: 60px;
     }
     
     .daily{
-        margin-bottom: 2vh;
+        margin-bottom: 5px;
     }
 }
